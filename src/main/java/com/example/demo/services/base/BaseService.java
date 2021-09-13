@@ -62,7 +62,7 @@ public abstract class BaseService<T extends IEntity> implements IService<T>, Ser
     public T findOne(Long id) {
         T entity = getRepository().getById(id);
 
-        if(getRepository().existsById((Long) entity.getId()) == false)
+        if(!getRepository().existsById((Long) entity.getId()))
             throw new ValidationException(Helper.getLocaleMessage("Invalid.id",messageSource));
 
         return entity;

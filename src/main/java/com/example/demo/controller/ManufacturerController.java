@@ -39,7 +39,7 @@ public class ManufacturerController {
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<ResponseUtil> getManufacturer(){
         List<Manufacturer> models =  manufacturerService.getAll();
-       return new ResponseEntity<ResponseUtil>(new ResponseUtil(200, Constants.SUCCESS_STATUS,Helper.getLocaleMessage("retrieved.success",messageSource),models,(long)models.size()),HttpStatus.OK);
+       return new ResponseEntity<ResponseUtil>(new ResponseUtil(200, Constants.SUCCESS_STATUS, Helper.getLocaleMessage("retrieved.success",messageSource),models,(long)models.size()),HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT,value = "/{id}")

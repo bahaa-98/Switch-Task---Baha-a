@@ -28,7 +28,7 @@ public class Car extends BaseEntity {
 
     private int rating;
 
-    private EngineType engineType;
+    private String engineType;
 
 
     @ManyToOne(fetch = FetchType.LAZY)

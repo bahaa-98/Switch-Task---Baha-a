@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CarService extends BaseService<Car> implements ICarService {
 
@@ -17,5 +19,11 @@ public class CarService extends BaseService<Car> implements ICarService {
     @Override
     protected JpaRepository<Car, Long> getRepository() {
         return carRepo;
+    }
+
+
+    @Override
+    public List<Car> getAll() {
+        return carRepo.findAll();
     }
 }
