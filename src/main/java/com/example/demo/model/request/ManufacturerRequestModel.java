@@ -7,7 +7,11 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class ManufacturerRequestModel{
+public class ManufacturerRequestModel extends BaseModel {
 
     private String name;
+
+    public ManufacturerRequestModel(Long id) {
+        super(id);
+    }
 }

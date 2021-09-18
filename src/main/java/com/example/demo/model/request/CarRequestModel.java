@@ -1,6 +1,7 @@
 package com.example.demo.model.request;
 
 import com.example.demo.domain.Driver;
+import com.example.demo.domain.EngineType;
 import com.example.demo.domain.Manufacturer;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +21,7 @@ public class CarRequestModel{
 
     private int rating;
 
-    private String engineType;
+    private EngineType engineType;
 
     private Manufacturer manufacturer;
 

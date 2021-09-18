@@ -8,5 +8,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class DriverReqLoginModel {
-
+    private String email;
+    private String password;
 }

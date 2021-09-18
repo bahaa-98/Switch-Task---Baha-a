@@ -40,7 +40,7 @@ public class CarController {
 
         carService.add(entity);
 
-        CarResponseModel carResponseModel = new CarResponseModel(entity.getId(),carRequestModel.getLicensePlate(),carRequestModel.getSeatCount(),carRequestModel.getConvertible(),carRequestModel.getRating(),carRequestModel.getEngineType(),carRequestModel.getManufacturer(),carRequestModel.getDriver());
+        CarResponseModel carResponseModel = new CarResponseModel(entity.getId(),carRequestModel.getLicensePlate(),carRequestModel.getSeatCount(),carRequestModel.getConvertible(),carRequestModel.getRating(),carRequestModel.getEngineType());
 
         return new ResponseEntity<ResponseUtil>(new ResponseUtil(201, Constants.SUCCESS_STATUS, Helper.getLocaleMessage("created.success",messageSource),carResponseModel,1L), HttpStatus.OK);
     }
@@ -50,6 +50,13 @@ public class CarController {
         List<Car> cars = carService.getAll();
 
         return new ResponseEntity<ResponseUtil>(new ResponseUtil(200, Constants.SUCCESS_STATUS,Helper.getLocaleMessage("retrieved.success",messageSource),cars,(long)cars.size()),HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/{carId}")
+    public ResponseEntity<ResponseUtil> getById(@PathVariable("carId") Long carId){
+        Car car = carService.findOne(carId);
+
+        return new ResponseEntity<ResponseUtil>(new ResponseUtil(200, Constants.SUCCESS_STATUS,Helper.getLocaleMessage("retrieved.success",messageSource),car,1L),HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT,value = "/{id}")
@@ -71,5 +78,15 @@ public class CarController {
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     public void delete(@PathVariable("id") Long id){
         carService.softDelete(id);
+    }
+
+    @RequestMapping(method = RequestMethod.POST,value = "/selectCar")
+    public void selectCar(@RequestParam Long carId, @RequestParam Long driverId){
+        carService.selectCar(carId,driverId);
+    }
+
+    @RequestMapping(method = RequestMethod.POST,value = "/deSelectCar")
+    public void deSelectCar(@RequestParam Long carId, @RequestParam Long driverId){
+        carService.deSelectCar(carId,driverId);
     }
 }

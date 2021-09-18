@@ -30,7 +30,18 @@ public abstract class BaseService<T extends IEntity> implements IService<T>, Ser
     @Transactional(readOnly = false)
     public T add(T entity) {
         preAdd(entity);
-        getRepository().save(entity);
+        try{
+            getRepository().save(entity);
+        }
+        catch (ConstraintViolationException ex){
+            throw new ValidationException(Helper.getLocaleMessage(Helper.getMessageKeyFromException(ex),messageSource));
+        }
+        catch(DataIntegrityViolationException ex){
+            if(entity instanceof Driver)
+                throw new ValidationException(Helper.getLocaleMessage("duplicate.user",messageSource));
+            else
+                throw new ValidationException(Helper.getLocaleMessage("duplicate.entry",messageSource));
+        }
         return entity;
     }
 
@@ -38,8 +49,12 @@ public abstract class BaseService<T extends IEntity> implements IService<T>, Ser
     @Transactional(readOnly = false)
     public T update(T entity, Long id) {
         preUpdate(entity,id);
-        getRepository().save(entity);
-        return entity;
+      try {
+          getRepository().save(entity);
+      }  catch (Exception ex){
+          throw new ValidationException((Helper.getLocaleMessage("Invalid.id",messageSource)));
+      }
+          return entity;
     }
 
     @Override

@@ -33,4 +33,5 @@ public class Driver extends BaseEntity {
     private String password;
 
     private Boolean status;
+
 }

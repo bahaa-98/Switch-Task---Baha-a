@@ -1,6 +1,7 @@
 package com.example.demo.model.response;
 
 import com.example.demo.domain.Driver;
+import com.example.demo.domain.EngineType;
 import com.example.demo.domain.Manufacturer;
 import com.example.demo.model.base.BaseModel;
 import lombok.AllArgsConstructor;
@@ -19,20 +20,14 @@ public class CarResponseModel extends BaseModel {
 
     private int rating;
 
-    private String engineType;
+    private EngineType engineType;
 
-    private Manufacturer manufacturer;
-
-    private Driver driver;
-
-    public CarResponseModel(Long id, String licensePlate, int seatCount, Boolean convertible, int rating, String engineType, Manufacturer manufacturer, Driver driver) {
+    public CarResponseModel(Long id, String licensePlate, int seatCount, Boolean convertible, int rating, EngineType engineType) {
         super(id);
         this.licensePlate = licensePlate;
         this.seatCount = seatCount;
         this.convertible = convertible;
         this.rating = rating;
         this.engineType = engineType;
-        this.manufacturer = manufacturer;
-        this.driver = driver;
     }
 }

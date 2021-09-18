@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.controller.base.IBaseController;
 import com.example.demo.domain.Manufacturer;
 import com.example.demo.model.request.ManufacturerRequestModel;
 import com.example.demo.model.response.ManufacturerResponseModel;
@@ -13,12 +14,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/manufacturers")
-public class ManufacturerController {
+public class ManufacturerController implements IBaseController<ManufacturerResponseModel,Manufacturer> {
 
     @Autowired
     private IManufacturer manufacturerService;
@@ -27,19 +27,23 @@ public class ManufacturerController {
     private ResourceBundleMessageSource messageSource;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<ResponseUtil> addManufacturer(@RequestBody ManufacturerRequestModel manufacturerReqModel){
-        Manufacturer entity = new Manufacturer(manufacturerReqModel.getName());
-
-        ManufacturerResponseModel responseModel = new ManufacturerResponseModel(entity.getId(), entity.getName());
+    public ResponseEntity<ResponseUtil> addManufacturer(@RequestBody Manufacturer entity){
 
         manufacturerService.add(entity);
-        return new ResponseEntity<ResponseUtil>(new ResponseUtil(201, Constants.SUCCESS_STATUS, Helper.getLocaleMessage("created.success",messageSource),responseModel,1L), HttpStatus.OK);
+        return new ResponseEntity<ResponseUtil>(new ResponseUtil(201, Constants.SUCCESS_STATUS, Helper.getLocaleMessage("created.success",messageSource),entity,1L), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<ResponseUtil> getManufacturer(){
         List<Manufacturer> models =  manufacturerService.getAll();
        return new ResponseEntity<ResponseUtil>(new ResponseUtil(200, Constants.SUCCESS_STATUS, Helper.getLocaleMessage("retrieved.success",messageSource),models,(long)models.size()),HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/{manufacturerId}")
+    public ResponseEntity<ResponseUtil> getById(@PathVariable("manufacturerId") Long manufacturerId){
+        Manufacturer manufacturer = manufacturerService.findOne(manufacturerId);
+
+        return new ResponseEntity<ResponseUtil>(new ResponseUtil(200,Constants.SUCCESS_STATUS,Helper.getLocaleMessage("retrieved.success",messageSource),manufacturer,1L),HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT,value = "/{id}")
@@ -57,4 +61,16 @@ public class ManufacturerController {
         //manufacturerService.findOne(id);
         manufacturerService.softDelete(id);
     }
+
+
+    @Override
+    public ManufacturerResponseModel modelizeEntity(Manufacturer entity) {
+        return null;
+    }
+
+    @Override
+    public List<ManufacturerResponseModel> modelizeList(List<Manufacturer> entities) {
+        return null;
+    }
 }
+
